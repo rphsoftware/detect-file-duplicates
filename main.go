@@ -21,7 +21,7 @@ func recursivelyScanDirectory(logBase string, pathBase string, path string, mapt
 
 	for i := 0; i < len(files); i++ {
 
-		logMsg := logBase + "> " + strconv.Itoa(i + 1) + "/" + strconv.Itoa(len(files)) + " | " + files[i].Name() + " "
+		logMsg := logBase + "> " + strconv.Itoa(i + 1) + "/" + strconv.Itoa(len(files)) + " "
 		fmt.Print("\u001B[2K\r", logMsg, " ( ", soFar, " duplicates found )")
 
 		if files[i].IsDir() {
@@ -43,11 +43,10 @@ func recursivelyScanDirectory(logBase string, pathBase string, path string, mapt
 
 			if _, ok := maptouse[result]; ok == true {
 				soFar++
-				logfd.WriteString("Duplicate: ")
 				logfd.WriteString(pathBase + files[i].Name())
-				logfd.WriteString(" conflicts with ")
-				logfd.WriteString(maptouse[result])
 				logfd.WriteString("\n")
+				logfd.WriteString(maptouse[result])
+				logfd.WriteString("\n======\n")
 			} else {
 				maptouse[result] = pathBase + files[i].Name()
 			}
